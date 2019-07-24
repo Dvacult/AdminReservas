@@ -1,83 +1,50 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-        Buscar por Salas
+        Solicitações
     </ion-title>
-    <ion-buttons slot="primary">
-      <ion-button (click)="clearCalendar()">
-        <ion-icon slot="icon-only" name="trash"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>      
-  <ion-item-divider>
-      <ion-label>
-        Data da reserva
-      </ion-label>
-  </ion-item-divider>
-  <ion-calendar 
-      [options]="optionsRange"
-      (change)="onChange($event)"
-      [type]="type"
-      [format]="'DD-MM-YYYY'">
-  </ion-calendar>
-  <ion-item-divider>
-    <ion-label>
-      Horários
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card class="dates-card" *ngIf="rooms.length == 0">
+      <ion-card-header>
+        <ion-card-title>Nenhuma solitação encontrada</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <p>Nenhuma solitação encontrada.</p>
+        <p>Por favor, procure em outras datas ou entre em contato com o PRCEU</p>
+      </ion-card-content>
+  </ion-card>
+
+  <ion-item-divider *ngIf="rooms.length > 0">
+    <ion-label slot="start">
+        <h2>{{rooms.length}} resultados</h2>
     </ion-label>
   </ion-item-divider>
-  <ion-grid>
-      <ion-row>
-          <ion-col>
-              <ion-item>
-                <ion-toggle color="danger" [disabled]="allDayToggle" (ionChange)="setAllDay($event)" value="0"></ion-toggle>
-                <ion-label>8:00 às 22:00</ion-label>    
-              </ion-item>
-          </ion-col>
-          <ion-col>
-              <ion-item>
-                <ion-toggle (ionChange)="setTime($event)" [disabled]="timesToggle" value="1"></ion-toggle>
-                <ion-label>8:00 às 10:00</ion-label>    
-              </ion-item>
-          </ion-col>
-          <ion-col>
-              <ion-item>
-                <ion-toggle (ionChange)="setTime($event)" [disabled]="timesToggle" value="2"></ion-toggle>
-                <ion-label>10:30 às 12:30</ion-label>    
-              </ion-item>
-          </ion-col>
-          <ion-col>
-              <ion-item>
-                <ion-toggle (ionChange)="setTime($event)" [disabled]="timesToggle" value="3"></ion-toggle>
-                <ion-label>13:00 às 14:00</ion-label>    
-              </ion-item>
-          </ion-col>
-          <ion-col>
-              <ion-item>
-                <ion-toggle (ionChange)="setTime($event)" [disabled]="timesToggle" value="4"></ion-toggle>
-                <ion-label>14:30 às 16:30</ion-label>    
-              </ion-item>
-          </ion-col>
-          <ion-col>
-              <ion-item>
-                <ion-toggle (ionChange)="setTime($event)" [disabled]="timesToggle" value="5"></ion-toggle>
-                <ion-label>17:00 às 19:00</ion-label>    
-              </ion-item>
-          </ion-col>
-          <ion-col>
-              <ion-item>
-                <ion-toggle (ionChange)="setTime($event)" [disabled]="timesToggle" value="6"></ion-toggle>
-                <ion-label>19:30 às 21:30</ion-label>    
-              </ion-item>
-          </ion-col>
-      </ion-row>
-  </ion-grid>
   
-  <ion-button expand="full" size="large" [disabled]="search" (click)="resultRow($event)">
-      <ion-icon name="search"></ion-icon>
-      Buscar
-  </ion-button>
-  
+  <ion-list class="result-list" *ngIf="rooms.length > 0">
+      <ion-item-sliding *ngFor="let item of rooms, let i = index">
+      
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="../../assets/imgs/{{item.attributes.roomRev.attributes.imgID}}.jpg" class="img-room"/>
+          </ion-thumbnail> 
+          <ion-label>           
+              <h1>{{item.attributes.roomRev.attributes.name}}</h1>
+              <h2>{{item.attributes.datesRev}}</h2>
+              <p>
+                  Área <b>{{item.attributes.roomRev.attributes.area}}</b> com dimensões <b>{{item.attributes.roomRev.attributes.dimension}}</b>
+              </p>
+          </ion-label>
+          <ion-button fill="outline" slot="end" color="danger" (click)="presentAlertConfirm(item)">Remover</ion-button>
+        </ion-item>
+        
+      </ion-item-sliding>
+</ion-list>
 </ion-content>

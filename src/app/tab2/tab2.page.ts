@@ -23,22 +23,17 @@ export class Tab2Page {
 
   getMyReverves() {
 
-    this.storage.get('user').then((user) => {
-      console.log('User ', user);
+    Parse.initialize(ParseConfig.appId, ParseConfig.javascriptKey, ParseConfig.masterKey);
+    Parse.serverURL = ParseConfig.serverURL;
 
-      Parse.initialize(ParseConfig.appId, ParseConfig.javascriptKey, ParseConfig.masterKey);
-      Parse.serverURL = ParseConfig.serverURL;
-
-      var query = new Parse.Query("Reverse");
-      query.equalTo("userRev", this.getUser(user.id));
-      query.include("roomRev");
-      query.include("userRev");
-      query.find().then((results) => {
-        console.log(results);
-        this.rooms = results;
-      }, err => {
-        console.log('Error logging in', err);
-      });
+    var query = new Parse.Query("Reverse");
+    query.include("roomRev");
+    query.include("userRev");
+    query.find().then((results) => {
+      console.log(results);
+      this.rooms = results;
+    }, err => {
+      console.log('Error logging in', err);
     });
     
   }
@@ -50,15 +45,6 @@ export class Tab2Page {
       console.log('Async operation has ended');
       event.target.complete();
     }, 1000);
-  }
-
-  getUser(userId){
-      
-    var user = Parse.Object.extend("_User");
-    var user = new user();
-    user.id = userId;
-    
-    return user;  
   }
 
   removeReserve(reserve){

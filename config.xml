@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Reserva PRCEU</name>
-    <description>Reservar de Salas Multiúsos - 1º Pavimento - Anfiteatro de Convenções Camargo Guarnieri</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <name>Administração PRCEU</name>
+    <description>Administração de Salas Multiúsos </description>
+    <author email="jonataspalumbo@gmail.com" href="https://github.com/JonatasPalumbo">Jonatas Palumbo</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

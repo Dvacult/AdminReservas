@@ -11,39 +11,40 @@ import { Storage } from '@ionic/storage';
 export class TabsPage {
 
   reverse: number;
+  users: number;
   constructor(private storage: Storage) {
     this.getNumberReverse();
+    this.getNumberUsers();
   }
   
   ionViewDidEnter() { 
-    this.getNumberReverse();  
+    this.getNumberReverse();
+    this.getNumberUsers(); 
   }
   
   getNumberReverse(){
-    this.storage.get('user').then((user) => {
-      console.log('User ', user);
+    Parse.initialize(ParseConfig.appId, ParseConfig.javascriptKey, ParseConfig.masterKey);
+    Parse.serverURL = ParseConfig.serverURL;
 
-      Parse.initialize(ParseConfig.appId, ParseConfig.javascriptKey, ParseConfig.masterKey);
-      Parse.serverURL = ParseConfig.serverURL;
-
-      var query = new Parse.Query("Reverse");
-      query.equalTo("userRev", this.getUser(user.id));
-      query.find().then((results) => {
-        console.log(results);
-        this.reverse = results.length;
-      }, err => {
-        console.log('Error logging in', err);
-      });
+    var query = new Parse.Query("Reverse");
+    query.find().then((results) => {
+      console.log(results);
+      this.reverse = results.length;
+    }, err => {
+      console.log('Error logging in', err);
     });
   }
-
-  getUser(userId){
-      
-    var user = Parse.Object.extend("_User");
-    var user = new user();
-    user.id = userId;
-    
-    return user;  
-  }
   
+  getNumberUsers(){
+    Parse.initialize(ParseConfig.appId, ParseConfig.javascriptKey, ParseConfig.masterKey);
+    Parse.serverURL = ParseConfig.serverURL;
+
+    var query = new Parse.Query("User");
+    query.find().then((results) => {
+      console.log(results);
+      this.users = results.length;
+    }, err => {
+      console.log('Error logging in', err);
+    });
+  }
 }

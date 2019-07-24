@@ -1,57 +1,55 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Configurações
+      Usuários
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card class="login-card">
-        <img class="logo" src="../../assets/imgs/logo_prceu.png">
-        <ion-card-content>
-            <ion-list>
-                <ion-item-divider>
-                    <ion-label>
-                      Contato
-                    </ion-label>
-                </ion-item-divider>
-                <ion-item>
-                    <ion-label>
-                        <p>E-mail</p>
-                        <h2>{{email}}</h2>
-                      </ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>
-                      <p>Número USP</p>
-                      <h2>{{nUSP}}</h2>
-                    </ion-label>
-                </ion-item> 
-                <ion-item>
-                    <ion-label>
-                      <p>Setor</p>
-                      <h2>{{setor}}</h2>
-                    </ion-label>
-                </ion-item> 
-                
-                <ion-item-divider>
-                    <ion-label>
-                      Configurações
-                    </ion-label>
-                </ion-item-divider>
-                <ion-item>
-                    <ion-avatar slot="start">
-                      <img src="../../assets/imgs/user.png">
-                    </ion-avatar>
-                    <ion-label>
-                      {{login}}
-                    </ion-label>
-                    <!-- <ion-button fill="outline" slot="end" (click)="editUser()">Editar</ion-button> -->
-                    <ion-button fill="outline" slot="end" (click)="logout()" color="danger">Logout</ion-button>
-                  </ion-item>
-              </ion-list>
-                      
-        </ion-card-content>
-      </ion-card>
-</ion-content>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+    
+        <ion-card class="dates-card" *ngIf="users.length == 0">
+            <ion-card-header>
+              <ion-card-title>Nenhuma reverva encontrada</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              <p>Nenhuma reverva encontrada.</p>
+              <p>Por favor, procure em outras datas ou entre em contato com o PRCEU</p>
+            </ion-card-content>
+        </ion-card>
+    
+        <ion-item-divider *ngIf="users.length > 0">
+          <ion-label slot="start">
+              <h2>{{users.length}} resultados</h2>
+          </ion-label>
+        </ion-item-divider>
+        
+        <ion-list class="result-list" *ngIf="users.length > 0">
+            <ion-item-sliding *ngFor="let item of users, let i = index">
+            
+              <ion-item>
+                <ion-thumbnail slot="start">
+                  <img src="../../assets/icon/favicon.png" class="img-room"/>
+                </ion-thumbnail>                 
+                <ion-label>
+                    <ion-row>
+                        <ion-col>
+                            <h1>{{item.attributes.username}}</h1>
+                            
+                            <p>{{item.attributes.setor}}</p>
+                        </ion-col>
+                        <ion-col size="2" align-self-center>
+                            <p>N° USP {{item.attributes.nUSP}}</p>
+                        </ion-col>
+                    </ion-row>           
+                </ion-label>
+                <ion-button fill="outline" slot="end" color="danger" (click)="presentAlertConfirm(item)">Remover</ion-button>
+              </ion-item>
+              
+            </ion-item-sliding>
+      </ion-list>
+  </ion-content>
