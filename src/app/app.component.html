@@ -1,3 +1,22 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane when="(min-width: 3000px)" contentId="menu-content">
+    <!--  our side menu  -->
+    <ion-menu contentId="menu-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Adminstração de Salas</ion-title>
+          <ion-content>
+            <ion-list>
+              <ion-item>Sobre</ion-item>
+              <ion-item>
+                <ion-button fill="outline" slot="end" (click)="logout()" color="danger">Logout</ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+        </ion-toolbar>
+      </ion-header>
+    </ion-menu>
+    <!-- the main content -->
+    <ion-router-outlet id="menu-content"></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>
