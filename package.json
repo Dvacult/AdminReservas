@@ -43,7 +43,7 @@
     "ionic-img-viewer": "^2.9.0",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
-    "parse": "^2.4.0",
+    "parse": "^2.10.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.29"
